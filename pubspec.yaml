@@ -26,6 +26,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
   
   fonts:
-    - family: WorkSans
+    - family: Poppins
       fonts:
-        - asset: fonts/WorkSans-Regular.ttf
+        - asset: fonts/Poppins-Regular.ttf
+    - family: AbrilFatface
+      fonts:
+        - asset: fonts/AbrilFatface-Regular.ttf

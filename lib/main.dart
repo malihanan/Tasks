@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasks/colors.dart';
 
 import 'listTasks.dart';
 
@@ -11,8 +12,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primaryColor: Colors.white,
-          accentColor: Color.fromRGBO(45, 41, 66, 1),
-          fontFamily: 'WorkSans',
+          accentColor: CustomColors.darkBlue,
+          fontFamily: 'Poppins',
           appBarTheme: AppBarTheme(
             elevation: 0,
           )),
@@ -35,24 +36,25 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            'Tasks',
-            style: TextStyle(
-              letterSpacing: 2,
-              color: Theme.of(context).accentColor,
-            ),
+            '',
+            // style: TextStyle(
+            //   letterSpacing: 2,
+            //   color: Theme.of(context).accentColor,
+            // ),
           ),
         ),
       ),
-      body: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(50),
-          topRight: Radius.circular(50),
-        ),
-        child: Container(
-          color: Colors.grey[100],
-          child: ListTasks(),
-        ),
-      ),
+      body: ListTasks(),
+      // ClipRRect(
+      //   borderRadius: BorderRadius.only(
+      //     topLeft: Radius.circular(50),
+      //     topRight: Radius.circular(50),
+      //   ),
+      //   child: Container(
+      //     color: Colors.grey[100],
+      //     child: ListTasks(),
+      //   ),
+      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Icon(Icons.add),
