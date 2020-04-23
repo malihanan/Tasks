@@ -56,7 +56,6 @@ class _ListTasksState extends State<ListTasks> {
       child: Card(
         //borderRadius: BorderRadius.all(Radius.circular(15)),
         elevation: 8,
-        shadowColor: task.color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),
