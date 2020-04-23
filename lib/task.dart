@@ -15,12 +15,7 @@ class Task {
     this.color = CustomColors.pink;
   }
 
-  Task.fromValues(String title, int parts, Color color) {
-    this.title = title;
-    this.parts = parts;
-    this.completedParts = 0;
-    this.color = color;
-  }
+  Task.fromValues({String title, int parts, Color color});
 
   double getCompletionPercentage() {
     return this.completedParts / this.parts;
@@ -36,5 +31,5 @@ class ReminderTask extends Task {
 
   ReminderTask.fromValues(String title, int parts, Color color, DateTime date)
       : this.date = date,
-        super.fromValues(title, parts, color);
+        super.fromValues(title: title, parts: parts, color: color);
 }
