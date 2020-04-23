@@ -8,9 +8,9 @@ class ListTasks extends StatefulWidget {
 }
 
 List<Task> tasks = <Task>[
-  Task('Drink Water', 10, 8, CustomColors.blue),
-  Task('Do Homework', 5, 2, CustomColors.pink),
-  Task('Exercise', 2, 1, CustomColors.purple),
+  Task.fromValues('Drink Water', 10, CustomColors.blue),
+  Task.fromValues('Do Homework', 5, CustomColors.pink),
+  Task.fromValues('Exercise', 2, CustomColors.purple),
 ];
 
 class _ListTasksState extends State<ListTasks> {
