@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tasks/database.dart';
 import 'package:tasks/task.dart';
-import 'package:tasks/listTasks.dart';
 
 import 'colors.dart';
 
@@ -15,6 +15,9 @@ class AddTask extends StatefulWidget {
 class AddTaskState extends State<AddTask> {
   Task task = new Task();
   int _radioValue = 0;
+  final formkey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+  DBProvider db;
 
   void _handleRadioValueChange(int value) {
     setState(() {
@@ -33,9 +36,6 @@ class AddTaskState extends State<AddTask> {
       }
     });
   }
-
-  final formkey = GlobalKey<FormState>();
-  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -142,10 +142,8 @@ class AddTaskState extends State<AddTask> {
                           onPressed: () {
                             if (formkey.currentState.validate()) {
                               formkey.currentState.save();
-                              print(task.title);
-                              print(task.parts.toString());
-                              print(task.color.toString());
-                              tasks.add(task);
+                              // tasks.add(task);
+                              db.newTask(task);
                               Navigator.of(context).pop(this);
                             } else {
                               _autoValidate = true;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tasks/task.dart';
 
 import 'colors.dart';
-import 'listTasks.dart';
 
 class EditTask extends StatefulWidget {
   Task task;
@@ -54,7 +53,7 @@ class EditTaskState extends State<EditTask> {
   @override
   Widget build(BuildContext context) {
     _setRadio();
-    int index = tasks.indexOf(widget.task);
+    // int index = tasks.indexOf(widget.task);
     return new Scaffold(
       body: new Container(
         color: Colors.grey[300],
@@ -159,8 +158,8 @@ class EditTaskState extends State<EditTask> {
                           onPressed: () {
                             if (formkey.currentState.validate()) {
                               formkey.currentState.save();
-                              tasks.removeAt(index);
-                              tasks.insert(index, widget.task);
+                              // tasks.removeAt(index);
+                              // tasks.insert(index, widget.task);
                               Navigator.of(context).pop(this);
                             } else {
                               _autoValidate = true;

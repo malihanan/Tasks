@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:tasks/colors.dart';
+import 'package:tasks/database.dart';
 import 'package:tasks/task.dart';
-
 import 'editTask.dart';
+
+// List<Task> tasks = <Task>[
+//   Task.fromValues(1, 'Drink Water', 10, CustomColors.blue),
+//   Task.fromValues(2, 'Do Homework', 5, CustomColors.pink),
+//   Task.fromValues(3, 'Exercise', 2, CustomColors.purple),
+// ];
 
 class ListTasks extends StatefulWidget {
   @override
   _ListTasksState createState() => _ListTasksState();
 }
 
-List<Task> tasks = <Task>[
-  Task.fromValues(title: 'Drink Water', parts: 10, color: CustomColors.blue),
-  Task.fromValues(title: 'Do Homework', parts: 5, color: CustomColors.pink),
-  Task.fromValues(title: 'Exercise', parts: 2, color: CustomColors.purple),
-];
-
 class _ListTasksState extends State<ListTasks> {
   double _initial = 0.0;
   double _drag = 0.0;
-  bool _inEditMode = true;
+  bool _inEditMode = false;
   final double _listItemHeight = 62;
 
   @override
   Widget build(BuildContext context) {
+    List<Task> tasks = DBProvider.db.getAllTasks();
+
     return ListView.builder(
       itemCount: tasks.length + 1,
       itemBuilder: (BuildContext context, int i) {
@@ -177,7 +179,7 @@ class _ListTasksState extends State<ListTasks> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    tasks.remove(task);
+                                    // tasks.remove(task);
                                     _inEditMode = false;
                                   });
                                 },

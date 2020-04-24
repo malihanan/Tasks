@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Colors.white,
+          primaryColor: Colors.grey,
           accentColor: CustomColors.darkBlue,
           fontFamily: 'Poppins',
           appBarTheme: AppBarTheme(
