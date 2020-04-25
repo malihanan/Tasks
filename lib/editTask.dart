@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tasks/database.dart';
 import 'package:tasks/task.dart';
 
 import 'colors.dart';
@@ -160,6 +161,7 @@ class EditTaskState extends State<EditTask> {
                               formkey.currentState.save();
                               // tasks.removeAt(index);
                               // tasks.insert(index, widget.task);
+                              DBProvider.db.updateTask(widget.task);
                               Navigator.of(context).pop(this);
                             } else {
                               _autoValidate = true;

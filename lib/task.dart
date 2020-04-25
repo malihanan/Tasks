@@ -32,7 +32,7 @@ class Task {
       parsedJson['id'],
       parsedJson['title'],
       parsedJson['parts'],
-      parsedJson['color'],
+      CustomColors.stringToColor(parsedJson['color']),
     );
     task.completedParts = parsedJson['completedParts'];
     return task;
@@ -43,7 +43,7 @@ class Task {
       "id": id,
       "title": title,
       "parts": parts,
-      "color": color,
+      "color": CustomColors.colorToString(color),
       "completedParts": completedParts,
     };
   }

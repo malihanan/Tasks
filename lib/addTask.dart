@@ -143,8 +143,10 @@ class AddTaskState extends State<AddTask> {
                             if (formkey.currentState.validate()) {
                               formkey.currentState.save();
                               // tasks.add(task);
-                              db.newTask(task);
-                              Navigator.of(context).pop(this);
+                              DBProvider.db.newTask(task).then((var row) {
+                                print(row.toString());
+                                Navigator.of(context).pop(this);
+                              });
                             } else {
                               _autoValidate = true;
                             }

@@ -20,38 +20,27 @@ class _ListTasksState extends State<ListTasks> {
   double _drag = 0.0;
   bool _inEditMode = false;
   final double _listItemHeight = 62;
+  List<Task> tasks = [];
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = DBProvider.db.getAllTasks();
-
-    return ListView.builder(
-      itemCount: tasks.length + 1,
-      itemBuilder: (BuildContext context, int i) {
-        if (i == 0) {
-          return Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Everyday",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-                Text(
-                  "Tasks",
-                  style: TextStyle(
-                    fontFamily: 'AbrilFatface',
-                    fontSize: 28,
-                  ),
-                ),
-              ],
-            ),
+    return FutureBuilder<List<Task>>(
+      future: DBProvider.db.getAllTasks(),
+      builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data.length + 1,
+            itemBuilder: (BuildContext context, int i) {
+              if (i == 0) {
+                return _getHeading();
+              } else {
+                return buildItem(snapshot.data[i - 1]);
+              }
+            },
           );
+        } else {
+          return Center(child: CircularProgressIndicator());
         }
-        return buildItem(tasks[i - 1]);
       },
     );
   }
@@ -85,12 +74,14 @@ class _ListTasksState extends State<ListTasks> {
                 if (task.completedParts != task.parts) {
                   setState(() {
                     task.completedParts += 1;
+                    DBProvider.db.updateTask(task);
                   });
                 }
               } else if (_drag < 0) {
                 if (task.completedParts != 0) {
                   setState(() {
                     task.completedParts -= 1;
+                    DBProvider.db.updateTask(task);
                   });
                 }
               }
@@ -180,6 +171,7 @@ class _ListTasksState extends State<ListTasks> {
                                 onPressed: () {
                                   setState(() {
                                     // tasks.remove(task);
+                                    DBProvider.db.deleteTask(task.id);
                                     _inEditMode = false;
                                   });
                                 },
@@ -193,6 +185,30 @@ class _ListTasksState extends State<ListTasks> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _getHeading() {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Everyday",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          Text(
+            "Tasks",
+            style: TextStyle(
+              fontFamily: 'AbrilFatface',
+              fontSize: 28,
+            ),
+          ),
+        ],
       ),
     );
   }

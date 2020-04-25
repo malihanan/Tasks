@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Colors.grey,
+          primaryColor: CustomColors.darkBlue,
           accentColor: CustomColors.darkBlue,
           fontFamily: 'Poppins',
           appBarTheme: AppBarTheme(
@@ -32,16 +32,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            '',
-          ),
-        ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 64.0),
+        child: ListTasks(),
       ),
-      body: ListTasks(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(

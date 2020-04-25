@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:tasks/colors.dart';
 import 'package:tasks/task.dart';
 
 class DBProvider {
@@ -44,10 +45,18 @@ class DBProvider {
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Task");
     int id = table.first["id"];
     //insert to the table using the new id
+    print(task.color.toString());
+    print(id.toString());
     var raw = await db.rawInsert(
-        "INSERT Into Client (id,title,parts,color,completedParts)"
+        "INSERT Into Task (id,title,parts,color,completedParts)"
         " VALUES (?,?,?,?,?)",
-        [id, task.title, task.parts, task.color, task.completedParts]);
+        [
+          id,
+          task.title,
+          task.parts,
+          CustomColors.colorToString(task.color),
+          task.completedParts
+        ]);
     return raw;
   }
 
@@ -57,7 +66,8 @@ class DBProvider {
     return res.isNotEmpty ? Task.fromMap(res.first) : Null;
   }
 
-  getAllTasks() async {
+  Future<List<Task>> getAllTasks() async {
+    // await deleteAll();
     final db = await database;
     var res = await db.query("Task");
     List<Task> list =
@@ -79,6 +89,6 @@ class DBProvider {
 
   deleteAll() async {
     final db = await database;
-    db.rawDelete("Delete * from Client");
+    db.rawDelete("Delete from Task");
   }
 }
