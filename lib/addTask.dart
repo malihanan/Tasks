@@ -28,10 +28,16 @@ class AddTaskState extends State<AddTask> {
           task.color = CustomColors.pink;
           break;
         case 1:
-          task.color = CustomColors.blue;
+          task.color = CustomColors.purple;
           break;
         case 2:
-          task.color = CustomColors.purple;
+          task.color = CustomColors.blue;
+          break;
+        case 3:
+          task.color = CustomColors.green;
+          break;
+        case 4:
+          task.color = CustomColors.yellow;
           break;
       }
     });
@@ -81,14 +87,19 @@ class AddTaskState extends State<AddTask> {
                             this.task.parts = int.parse(value);
                           },
                           validator: (value) {
-                            return value.isEmpty
-                                ? 'Parts cannot be empty'
-                                : null;
+                            if (value.isEmpty) {
+                              return 'Parts cannot be empty';
+                            } else if (int.parse(value) > 25) {
+                              return 'Parts cannot be more than 25';
+                            } else {
+                              return null;
+                            }
                           },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 16.0),
                           child: Row(
+                            mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
                               Text(
                                 'Color',
@@ -96,7 +107,9 @@ class AddTaskState extends State<AddTask> {
                                   color: Colors.grey,
                                 ),
                               ),
-                              SizedBox(width: 50),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -107,19 +120,29 @@ class AddTaskState extends State<AddTask> {
                                     onChanged: _handleRadioValueChange,
                                     activeColor: CustomColors.pink,
                                   ),
-                                  SizedBox(width: 20),
                                   Radio(
                                     value: 1,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.blue,
+                                    activeColor: CustomColors.purple,
                                   ),
-                                  SizedBox(width: 20),
                                   Radio(
                                     value: 2,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.purple,
+                                    activeColor: CustomColors.blue,
+                                  ),
+                                  Radio(
+                                    value: 3,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                    activeColor: CustomColors.green,
+                                  ),
+                                  Radio(
+                                    value: 4,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                    activeColor: CustomColors.yellow,
                                   ),
                                 ],
                               )

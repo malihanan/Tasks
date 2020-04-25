@@ -29,10 +29,14 @@ class _ListTasksState extends State<ListTasks> {
       builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
-            itemCount: snapshot.data.length + 1,
+            itemCount: snapshot.data.length + 2,
             itemBuilder: (BuildContext context, int i) {
               if (i == 0) {
                 return _getHeading();
+              } else if (i == snapshot.data.length + 1) {
+                return SizedBox(
+                  height: 75,
+                );
               } else {
                 return buildItem(snapshot.data[i - 1]);
               }
@@ -122,9 +126,9 @@ class _ListTasksState extends State<ListTasks> {
                                   .toString() +
                               "%",
                       style: TextStyle(
-                        color: (task.getCompletionPercentage() == 1)
-                            ? Colors.white70
-                            : task.color,
+                        color: (task.getCompletionPercentage() <= 0.89)
+                            ? task.color
+                            : Colors.white,
                         fontSize: 12,
                       ),
                     ),
@@ -156,6 +160,9 @@ class _ListTasksState extends State<ListTasks> {
                                       },
                                     ),
                                   );
+                                  setState(() {
+                                    _inEditMode = false;
+                                  });
                                 },
                               ),
                             ),

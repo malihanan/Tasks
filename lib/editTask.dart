@@ -29,10 +29,16 @@ class EditTaskState extends State<EditTask> {
           widget.task.color = CustomColors.pink;
           break;
         case 1:
-          widget.task.color = CustomColors.blue;
+          widget.task.color = CustomColors.purple;
           break;
         case 2:
-          widget.task.color = CustomColors.purple;
+          widget.task.color = CustomColors.blue;
+          break;
+        case 3:
+          widget.task.color = CustomColors.green;
+          break;
+        case 4:
+          widget.task.color = CustomColors.yellow;
           break;
       }
     });
@@ -41,10 +47,14 @@ class EditTaskState extends State<EditTask> {
   void _setRadio() {
     if (widget.task.color == CustomColors.pink) {
       _radioValue = 0;
-    } else if (widget.task.color == CustomColors.blue) {
+    } else if (widget.task.color == CustomColors.purple) {
       _radioValue = 1;
-    } else {
+    } else if (widget.task.color == CustomColors.blue) {
       _radioValue = 2;
+    } else if (widget.task.color == CustomColors.green) {
+      _radioValue = 3;
+    } else {
+      _radioValue = 4;
     }
   }
 
@@ -98,9 +108,13 @@ class EditTaskState extends State<EditTask> {
                             widget.task.parts = int.parse(value);
                           },
                           validator: (value) {
-                            return value.isEmpty
-                                ? 'Parts cannot be empty'
-                                : null;
+                            if (value.isEmpty) {
+                              return 'Parts cannot be empty';
+                            } else if (int.parse(value) > 25) {
+                              return 'Parts cannot be more than 25';
+                            } else {
+                              return null;
+                            }
                           },
                         ),
                         Padding(
@@ -113,7 +127,9 @@ class EditTaskState extends State<EditTask> {
                                   color: Colors.grey,
                                 ),
                               ),
-                              SizedBox(width: 50),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -124,22 +140,32 @@ class EditTaskState extends State<EditTask> {
                                     onChanged: _handleRadioValueChange,
                                     activeColor: CustomColors.pink,
                                   ),
-                                  SizedBox(width: 20),
                                   Radio(
                                     value: 1,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.blue,
+                                    activeColor: CustomColors.purple,
                                   ),
-                                  SizedBox(width: 20),
                                   Radio(
                                     value: 2,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.purple,
+                                    activeColor: CustomColors.blue,
+                                  ),
+                                  Radio(
+                                    value: 3,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                    activeColor: CustomColors.green,
+                                  ),
+                                  Radio(
+                                    value: 4,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                    activeColor: CustomColors.yellow,
                                   ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),
