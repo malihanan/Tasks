@@ -34,7 +34,7 @@ class AddTaskState extends State<AddTask> {
           task.color = CustomColors.blue;
           break;
         case 3:
-          task.color = CustomColors.green;
+          task.color = CustomColors.teal;
           break;
         case 4:
           task.color = CustomColors.yellow;
@@ -136,7 +136,7 @@ class AddTaskState extends State<AddTask> {
                                     value: 3,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.green,
+                                    activeColor: CustomColors.teal,
                                   ),
                                   Radio(
                                     value: 4,

@@ -35,7 +35,7 @@ class EditTaskState extends State<EditTask> {
           widget.task.color = CustomColors.blue;
           break;
         case 3:
-          widget.task.color = CustomColors.green;
+          widget.task.color = CustomColors.teal;
           break;
         case 4:
           widget.task.color = CustomColors.yellow;
@@ -51,7 +51,7 @@ class EditTaskState extends State<EditTask> {
       _radioValue = 1;
     } else if (widget.task.color == CustomColors.blue) {
       _radioValue = 2;
-    } else if (widget.task.color == CustomColors.green) {
+    } else if (widget.task.color == CustomColors.teal) {
       _radioValue = 3;
     } else {
       _radioValue = 4;
@@ -156,7 +156,7 @@ class EditTaskState extends State<EditTask> {
                                     value: 3,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.green,
+                                    activeColor: CustomColors.teal,
                                   ),
                                   Radio(
                                     value: 4,
