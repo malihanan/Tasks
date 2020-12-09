@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Colors.white,
+          primaryColor: CustomColors.darkBlue,
           accentColor: CustomColors.darkBlue,
           fontFamily: 'Poppins',
           appBarTheme: AppBarTheme(
@@ -60,7 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        // child: ListTasks(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
