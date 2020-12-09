@@ -19,7 +19,7 @@ class _ListTasksState extends State<ListTasks> {
   double _initial = 0.0;
   double _drag = 0.0;
   bool _inEditMode = false;
-  final double _listItemHeight = 62;
+  final double _listItemHeight = 68;
   List<Task> tasks = [];
 
   @override
@@ -29,16 +29,14 @@ class _ListTasksState extends State<ListTasks> {
       builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
-            itemCount: snapshot.data.length + 2,
+            itemCount: snapshot.data.length + 1,
             itemBuilder: (BuildContext context, int i) {
-              if (i == 0) {
-                return _getHeading();
-              } else if (i == snapshot.data.length + 1) {
+              if (i == snapshot.data.length) {
                 return SizedBox(
                   height: 75,
                 );
               } else {
-                return buildItem(snapshot.data[i - 1]);
+                return buildItem(snapshot.data[i]);
               }
             },
           );
@@ -159,7 +157,9 @@ class _ListTasksState extends State<ListTasks> {
                                         return EditTask(task);
                                       },
                                     ),
-                                  );
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
                                   setState(() {
                                     _inEditMode = false;
                                   });

@@ -28,7 +28,8 @@ class DBProvider {
           "title TEXT,"
           "parts INTEGER,"
           "color TEXT,"
-          "completedParts INTEGER"
+          "completedParts INTEGER,"
+          "datetime TEXT"
           ")");
     });
   }
@@ -48,14 +49,15 @@ class DBProvider {
     print(task.color.toString());
     print(id.toString());
     var raw = await db.rawInsert(
-        "INSERT Into Task (id,title,parts,color,completedParts)"
-        " VALUES (?,?,?,?,?)",
+        "INSERT Into Task (id,title,parts,color,completedParts,datetime)"
+        " VALUES (?,?,?,?,?,?)",
         [
           id,
           task.title,
           task.parts,
           CustomColors.colorToString(task.color),
-          task.completedParts
+          task.completedParts,
+          task.datetime.toString()
         ]);
     return raw;
   }

@@ -10,6 +10,7 @@ class Task {
   int parts;
   int completedParts;
   Color color;
+  DateTime datetime;
 
   Task() {
     this.id = 0;
@@ -17,6 +18,28 @@ class Task {
     this.parts = 1;
     this.completedParts = 0;
     this.color = CustomColors.pink;
+    this.datetime = DateTime.now();
+  }
+
+  Task.fromValues(
+      int id, String title, int parts, Color color, DateTime datetime) {
+    this.id = id;
+    this.title = title;
+    this.parts = parts;
+    this.completedParts = 0;
+    this.color = color;
+    this.datetime = datetime;
+  }
+
+  factory Task.fromMap(Map<String, dynamic> parsedJson) {
+    Task task = Task.fromValues(
+        parsedJson['id'],
+        parsedJson['title'],
+        parsedJson['parts'],
+        CustomColors.stringToColor(parsedJson['color']),
+        DateTime.parse(parsedJson['datetime'].toString()));
+    task.completedParts = parsedJson['completedParts'];
+    return task;
   }
 
   Task.fromValues(int id, String title, int parts, Color color) {
@@ -45,6 +68,7 @@ class Task {
       "parts": parts,
       "color": CustomColors.colorToString(color),
       "completedParts": completedParts,
+      "datetime": datetime.toString(),
     };
   }
 
@@ -73,5 +97,6 @@ class ReminderTask extends Task {
   ReminderTask.fromValues(
       int id, String title, int parts, Color color, DateTime date)
       : this.date = date,
+        super.fromValues(id, title, parts, color, date);
         super.fromValues(id, title, parts, color);
 }
