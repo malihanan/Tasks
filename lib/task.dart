@@ -42,25 +42,6 @@ class Task {
     return task;
   }
 
-  Task.fromValues(int id, String title, int parts, Color color) {
-    this.id = id;
-    this.title = title;
-    this.parts = parts;
-    this.completedParts = 0;
-    this.color = color;
-  }
-
-  factory Task.fromMap(Map<String, dynamic> parsedJson) {
-    Task task = Task.fromValues(
-      parsedJson['id'],
-      parsedJson['title'],
-      parsedJson['parts'],
-      CustomColors.stringToColor(parsedJson['color']),
-    );
-    task.completedParts = parsedJson['completedParts'];
-    return task;
-  }
-
   Map<String, dynamic> toMap() {
     return {
       "id": id,
@@ -98,5 +79,4 @@ class ReminderTask extends Task {
       int id, String title, int parts, Color color, DateTime date)
       : this.date = date,
         super.fromValues(id, title, parts, color, date);
-        super.fromValues(id, title, parts, color);
 }
