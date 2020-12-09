@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tasks/database.dart';
 import 'package:tasks/task.dart';
-import 'package:tasks/listTasks.dart';
 
 import 'colors.dart';
 
@@ -15,6 +15,9 @@ class AddTask extends StatefulWidget {
 class AddTaskState extends State<AddTask> {
   Task task = new Task();
   int _radioValue = 0;
+  final formkey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+  DBProvider db;
 
   void _handleRadioValueChange(int value) {
     setState(() {
@@ -25,17 +28,20 @@ class AddTaskState extends State<AddTask> {
           task.color = CustomColors.pink;
           break;
         case 1:
-          task.color = CustomColors.blue;
+          task.color = CustomColors.purple;
           break;
         case 2:
-          task.color = CustomColors.purple;
+          task.color = CustomColors.blue;
+          break;
+        case 3:
+          task.color = CustomColors.green;
+          break;
+        case 4:
+          task.color = CustomColors.yellow;
           break;
       }
     });
   }
-
-  final formkey = GlobalKey<FormState>();
-  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,14 +87,19 @@ class AddTaskState extends State<AddTask> {
                             this.task.parts = int.parse(value);
                           },
                           validator: (value) {
-                            return value.isEmpty
-                                ? 'Parts cannot be empty'
-                                : null;
+                            if (value.isEmpty) {
+                              return 'Parts cannot be empty';
+                            } else if (int.parse(value) > 25) {
+                              return 'Parts cannot be more than 25';
+                            } else {
+                              return null;
+                            }
                           },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 16.0),
                           child: Row(
+                            mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
                               Text(
                                 'Color',
@@ -96,7 +107,9 @@ class AddTaskState extends State<AddTask> {
                                   color: Colors.grey,
                                 ),
                               ),
-                              SizedBox(width: 50),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -107,19 +120,29 @@ class AddTaskState extends State<AddTask> {
                                     onChanged: _handleRadioValueChange,
                                     activeColor: CustomColors.pink,
                                   ),
-                                  SizedBox(width: 20),
                                   Radio(
                                     value: 1,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.blue,
+                                    activeColor: CustomColors.purple,
                                   ),
-                                  SizedBox(width: 20),
                                   Radio(
                                     value: 2,
                                     groupValue: _radioValue,
                                     onChanged: _handleRadioValueChange,
-                                    activeColor: CustomColors.purple,
+                                    activeColor: CustomColors.blue,
+                                  ),
+                                  Radio(
+                                    value: 3,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                    activeColor: CustomColors.green,
+                                  ),
+                                  Radio(
+                                    value: 4,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                    activeColor: CustomColors.yellow,
                                   ),
                                 ],
                               )
@@ -142,11 +165,11 @@ class AddTaskState extends State<AddTask> {
                           onPressed: () {
                             if (formkey.currentState.validate()) {
                               formkey.currentState.save();
-                              print(task.title);
-                              print(task.parts.toString());
-                              print(task.color.toString());
-                              tasks.add(task);
-                              Navigator.of(context).pop(this);
+                              // tasks.add(task);
+                              DBProvider.db.newTask(task).then((var row) {
+                                print(row.toString());
+                                Navigator.of(context).pop(this);
+                              });
                             } else {
                               _autoValidate = true;
                             }
