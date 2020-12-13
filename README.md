@@ -1,12 +1,12 @@
 # Tasks
 
-A to-do list manager app in Flutter that maintains progress of your tasks. Get the apk [here](https://drive.google.com/open?id=1UjrUAADQgk83Qdfn8Gb42nTJcgm0Zd4X "tasks.apk").
+A to-do list manager app in Flutter that maintains progress of your tasks. Get the apk [here](https://drive.google.com/file/d/1IINk7jZyRhtJtL66Zu9kki0vIF_9wYPL/view?usp=sharing "tasks.apk").
 
 ## Screens
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/50942732/80301877-3e7de800-87c4-11ea-8e89-5d527d7030fb.png" width="200" title="Main">
-  <img src="https://user-images.githubusercontent.com/50942732/80301879-40e04200-87c4-11ea-8644-901e3e62731f.png" width="200" title="Add">
-  <img src="https://user-images.githubusercontent.com/50942732/80301881-42aa0580-87c4-11ea-9c30-c8eadcf4eb08.png" width="200" title="Tapped">
-  <img src="https://user-images.githubusercontent.com/50942732/80301867-33c35300-87c4-11ea-8c44-aa8f5e503d2b.png" width="200" title="Edit">
+  <img src="https://user-images.githubusercontent.com/50942732/102020482-84ada900-3d9f-11eb-8c86-d059e21dde93.jpg" width="200" title="Main">
+  <img src="https://user-images.githubusercontent.com/50942732/102020436-41ebd100-3d9f-11eb-9754-db5cc9f1f03a.jpg" width="200" title="Add">
+  <img src="https://user-images.githubusercontent.com/50942732/102020484-87100300-3d9f-11eb-85e4-cccc1aae0e41.jpg" width="200" title="Tapped">
+  <img src="https://user-images.githubusercontent.com/50942732/102020465-72cc0600-3d9f-11eb-884e-e856910cbe58.jpg" width="200" title="Graph">
 </p>
