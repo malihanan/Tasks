@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomColors {
-  static final Color darkBlue = Color.fromRGBO(45, 41, 66, 1);
-
-  //final
-  static final Color pink = Color.fromRGBO(243, 210, 230, 1);
-  static final Color purple = Color.fromRGBO(173, 194, 238, 1);
-  static final Color blue = Color.fromRGBO(174, 224, 237, 1);
-  static final Color yellow = Color.fromRGBO(251, 216, 127, 1);
-  static final Color teal = Color.fromRGBO(176, 242, 180, 1);
-
-  // static final Color teal = Color.fromRGBO(135, 208, 202, 1);
-  // static final Color teal = Color.fromRGBO(165, 214, 157, 1);
-  //static final Color yellow = Color.fromRGBO(251, 216, 127, 1);
-
-  //trial
-  // static final Color pink = Color.fromRGBO(255, 202, 212, 1);
-  // static final Color purple = Color.fromRGBO(176, 208, 211, 1); //nice
-  // static final Color blue = Color.fromRGBO(192, 132, 151, 1);
-  // static final Color teal = Color.fromRGBO(247, 175, 157, 1);
-  // static final Color yellow = Color.fromRGBO(173, 194, 238, 1);
+  static const Color darkBlue = Color.fromRGBO(45, 41, 66, 1);
+  static const Color pink = Color.fromRGBO(243, 210, 230, 1);
+  static const Color purple = Color.fromRGBO(173, 194, 238, 1);
+  static const Color blue = Color.fromRGBO(174, 224, 237, 1);
+  static const Color yellow = Color.fromRGBO(251, 216, 127, 1);
+  static const Color teal = Color.fromRGBO(176, 242, 180, 1);
 
   static String colorToString(Color color) {
     if (color == CustomColors.pink)

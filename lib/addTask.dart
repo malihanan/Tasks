@@ -167,7 +167,6 @@ class AddTaskState extends State<AddTask> {
                               formkey.currentState.save();
                               // tasks.add(task);
                               DBProvider.db.newTask(task).then((var row) {
-                                print(row.toString());
                                 Navigator.of(context).pop(this);
                               });
                             } else {

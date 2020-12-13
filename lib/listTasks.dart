@@ -4,12 +4,6 @@ import 'package:tasks/database.dart';
 import 'package:tasks/task.dart';
 import 'editTask.dart';
 
-// List<Task> tasks = <Task>[
-//   Task.fromValues(1, 'Drink Water', 10, CustomColors.blue),
-//   Task.fromValues(2, 'Do Homework', 5, CustomColors.pink),
-//   Task.fromValues(3, 'Exercise', 2, CustomColors.purple),
-// ];
-
 class ListTasks extends StatefulWidget {
   @override
   _ListTasksState createState() => _ListTasksState();
@@ -25,20 +19,25 @@ class _ListTasksState extends State<ListTasks> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Task>>(
-      future: DBProvider.db.getAllTasks(),
+      future: DBProvider.db.getTodaysTasks(),
       builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data.length + 1,
-            itemBuilder: (BuildContext context, int i) {
-              if (i == snapshot.data.length) {
-                return SizedBox(
-                  height: 75,
-                );
-              } else {
-                return buildItem(snapshot.data[i]);
-              }
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() {});
             },
+            child: ListView.builder(
+              itemCount: snapshot.data.length + 1,
+              itemBuilder: (BuildContext context, int i) {
+                if (i == snapshot.data.length) {
+                  return SizedBox(
+                    height: 75,
+                  );
+                } else {
+                  return buildItem(snapshot.data[i]);
+                }
+              },
+            ),
           );
         } else {
           return Center(child: CircularProgressIndicator());
@@ -76,14 +75,14 @@ class _ListTasksState extends State<ListTasks> {
                 if (task.completedParts != task.parts) {
                   setState(() {
                     task.completedParts += 1;
-                    DBProvider.db.updateTask(task);
+                    DBProvider.db.updateCompletion(task);
                   });
                 }
               } else if (_drag < 0) {
                 if (task.completedParts != 0) {
                   setState(() {
                     task.completedParts -= 1;
-                    DBProvider.db.updateTask(task);
+                    DBProvider.db.updateCompletion(task);
                   });
                 }
               }
@@ -109,11 +108,17 @@ class _ListTasksState extends State<ListTasks> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      task.title,
-                      style: TextStyle(
-                        color: CustomColors.darkBlue,
-                        fontSize: 20,
+                    Container(
+                      height: _listItemHeight - 32,
+                      width: MediaQuery.of(context).size.width - 116,
+                      child: SingleChildScrollView(
+                        child: Text(
+                          task.title,
+                          style: TextStyle(
+                            color: CustomColors.darkBlue,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                     Text(
@@ -192,30 +197,6 @@ class _ListTasksState extends State<ListTasks> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _getHeading() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Everyday",
-            style: TextStyle(
-              fontSize: 18,
-            ),
-          ),
-          Text(
-            "Tasks",
-            style: TextStyle(
-              fontFamily: 'AbrilFatface',
-              fontSize: 28,
-            ),
-          ),
-        ],
       ),
     );
   }
