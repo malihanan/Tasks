@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -24,7 +23,7 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE Task ("
-          "id INTEGER PRIMARY KEY,"
+          "id INTEGER,"
           "title TEXT,"
           "parts INTEGER,"
           "color TEXT,"
@@ -34,42 +33,37 @@ class DBProvider {
     });
   }
 
-  // newTask(Task task) async {
-  //   final db = await database;
-  //   var res = await db.insert("Task", task.toMap());
-  //   return res;
-  // }
+  // CREATE
 
   newTask(Task task) async {
     final db = await database;
     //get the biggest id in the table
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Task");
     int id = table.first["id"];
+    if (id == null) {
+      id = 0;
+    }
     //insert to the table using the new id
-    print(task.color.toString());
-    print(id.toString());
-    var raw = await db.rawInsert(
-        "INSERT Into Task (id,title,parts,color,completedParts,datetime)"
-        " VALUES (?,?,?,?,?,?)",
-        [
-          id,
-          task.title,
-          task.parts,
-          CustomColors.colorToString(task.color),
-          task.completedParts,
-          task.datetime.toString()
-        ]);
+    var raw = 0;
+    raw = await db.rawInsert(
+      "INSERT Into Task (id,title,parts,color,completedParts,datetime)"
+      " VALUES (?,?,?,?,?,?)",
+      [
+        id,
+        task.title,
+        task.parts,
+        CustomColors.colorToString(task.color),
+        task.completedParts,
+        task.datetime.toString()
+      ],
+    );
     return raw;
   }
 
-  getTask(int id) async {
-    final db = await database;
-    var res = await db.query("Task", where: "id = ?", whereArgs: [id]);
-    return res.isNotEmpty ? Task.fromMap(res.first) : Null;
-  }
+  // READ
 
   Future<List<Task>> getAllTasks() async {
-    // await deleteAll();
+    //returns all tasks
     final db = await database;
     var res = await db.query("Task");
     List<Task> list =
@@ -77,12 +71,58 @@ class DBProvider {
     return list;
   }
 
+  Future<List<Task>> getTodaysTasks() async {
+    //returns today's task
+    final db = await database;
+    await DBProvider.db.deleteOldTasks();
+    var res = await db.query("Task");
+    List<Task> list =
+        res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    return list
+        .where((element) => element.datetime.day == DateTime.now().day)
+        .toList();
+  }
+
+  getTasks(int id) async {
+    //get tasks with same id -- not used
+    final db = await database;
+    var res = await db.query("Task", where: "id = ?", whereArgs: [id]);
+    List<Task> list =
+        res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  getTodaysTask(int id) async {
+    //get today's task with id -- not used
+    final db = await database;
+    var res = await db.query("Task",
+        where: "id = ? AND date(datetime) == date('now')", whereArgs: [id]);
+    return res.isNotEmpty ? Task.fromMap(res.first) : Null;
+  }
+
+  // UPDATE
+
   updateTask(Task task) async {
     final db = await database;
-    var res = await db
-        .update("Task", task.toMap(), where: "id = ?", whereArgs: [task.id]);
+    var res = await db.rawUpdate(
+        "UPDATE Task SET title=?, parts=?, color=? WHERE id=?", [
+      task.title,
+      task.parts,
+      CustomColors.colorToString(task.color),
+      task.id
+    ]);
     return res;
   }
+
+  updateCompletion(Task task) async {
+    final db = await database;
+    task.datetime = DateTime.now();
+    var res = await db.update("Task", task.toMap(),
+        where: "id = ? AND date(datetime) = date('now')", whereArgs: [task.id]);
+    return res;
+  }
+
+  // DELETE
 
   deleteTask(int id) async {
     final db = await database;
@@ -92,5 +132,32 @@ class DBProvider {
   deleteAll() async {
     final db = await database;
     db.rawDelete("Delete from Task");
+  }
+
+  deleteOldTasks() async {
+    // delete tasks older than 5 days
+    final db = await database;
+    List<Task> tasks = await DBProvider.db.getAllTasks();
+
+    for (Task task in tasks) {
+      var res = await db.query("Task",
+          where: "id=? and date(datetime)==date('now')", whereArgs: [task.id]);
+      if (res.isEmpty) {
+        await db.rawInsert(
+          "INSERT Into Task (id,title,parts,color,completedParts,datetime)"
+          " VALUES (?,?,?,?,?,?)",
+          [
+            task.id,
+            task.title,
+            task.parts,
+            CustomColors.colorToString(task.color),
+            0,
+            DateTime.now().toString(),
+          ],
+        );
+      }
+    }
+    db.rawDelete(
+        "Delete from Task where date(datetime) <= date('now','-5 day')");
   }
 }

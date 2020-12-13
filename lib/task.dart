@@ -66,6 +66,16 @@ class Task {
   double getCompletionPercentage() {
     return this.completedParts / this.parts;
   }
+
+  String toString() {
+    return "Task ( id:" +
+        this.id.toString() +
+        ", title:" +
+        this.title +
+        ", datetime:" +
+        this.datetime.toString() +
+        ")";
+  }
 }
 
 class ReminderTask extends Task {
